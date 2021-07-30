@@ -6,7 +6,9 @@ scripts/images/
 *__pycache__/
 *.py[cod]
 *$py.class
-
+optimise_data.txt
+results.txt
+*.pth
 # C extensions
 *.so
 
