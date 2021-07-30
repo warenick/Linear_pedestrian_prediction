@@ -14,26 +14,24 @@ class LPP():
 
         if goal is not None:
             assert goal.ndim == 2
-            velocity = goal-state
+            velocity = (goal-state)/future_horizon
             trajects.append(state+velocity)
             for _ in range(future_horizon-1):
                 trajects.append(trajects[-1]+velocity)
 
         if history is not None:
             assert history.ndim == 3
-            velocity = torch.mean(history[:,0:-1]-history[:,1:],dim=1)
+            velocity = torch.mean(history[:,0:-1]-history[:,1:],dim=1) #
+            # velocity = (history[:,0]-history[:,-1])/len(history[0]) #
+            # velocity = history[:,0]-history[:,1] #
             trajects.append(state+velocity)
             for _ in range(future_horizon-1):
                 trajects.append(trajects[-1]+velocity)
         
         assert len(trajects)>0
         trajects = torch.stack(trajects)
-        return trajects
+        return trajects.permute(1,0,2)
                 
-        
-        
-        assert True
-
 
 if __name__ == '__main__':
     future_horizon = 12
